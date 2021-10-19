@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>User Posts</title>
+    </head>
+    <body>
+        <table>
+            <thead>
+                    <tbody>
+                        <%users.forEach(User => { %>
+                            <tr>
+                                <td><%= users.name %></td>
+                                <td><%= users.email %></td>
+                                <td><%= users.password %></td>
+                            </tr>
+                        <% }) %>
+        
+                    </tbody>
+                    
+                </thead>
+        </table>
+        
+    </body>
+</html>
