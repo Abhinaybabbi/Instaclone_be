@@ -34,5 +34,53 @@ router.post("/",async (req,res)=> {
 
 });
 
+router.put("/:id",async function(req,res){
+    const {title } = req.body;
+    const post = await Post.findOne({ _id: req.params.id, user:req.user});
+    if (!post){
+        return res.status(404).json({
+            status: "failed",
+            message:"Post Not Found"
+        })
+    }
+    if(String(post.user) !== req.user){
+        return res.status(403).json({
+            status: "failed",
+            message:"Unauthorized user"
+        })
+        
+    }
+    await Post.updataOne({ _id: req.params.id},{
+        title
+    });
+    res.json({
+        status:"success"
+    })
+
+})
+
+router.delete("/:id",async function(req,res){
+    const {title } = req.body;
+    const post = await Post.findOne({ _id: req.params.id, user:req.user});
+    if (!post){
+        return res.status(404).json({
+            status: "failed",
+            message:"Post Not Found"
+        })
+    }
+    if(String(post.user) !== req.user){
+        return res.status(403).json({
+            status: "failed",
+            message:"Unauthorized user"
+        })
+        
+    }
+    await Post.Delete({ _id: req.params.id});
+    res.json({
+        status:"success"
+    })
+
+})
+
 
 module.exports=router;
