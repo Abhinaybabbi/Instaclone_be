@@ -5,9 +5,12 @@ const app = express();
 const indexRoutes = require("./Routes/index");
 const postRoutes = require("./Routes/post");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 
 mongoose.connect("mongodb://localhost/instaclone"); 
+
+app.use(cors());
 
 app.use("/posts",function (req,res,next){
     try{
