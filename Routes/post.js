@@ -22,9 +22,9 @@ router.get("/",async function(req,res){
     }
 })
 router.post("/",async function (req,res){
-    const {title, body, image, location,user,username} = req.body;
+    const { title, author,location,image,user } = req.body;
     const post = await Post.create({
-        title, body, image ,location ,user,username : req.user
+        title, author,location,image,user: req.user
     });
     res.json({
         status:"sucess",
@@ -37,7 +37,7 @@ router.post("/",async function (req,res){
 });
 
 router.put("/:id",async function(req,res){
-    const {title } = req.body;
+    const {title,author,location } = req.body;
     const post = await Post.findOne({ _id: req.params.id, user:req.user});
     if (!post){
         return res.status(404).json({
@@ -53,7 +53,7 @@ router.put("/:id",async function(req,res){
         
     }
     await Post.updataOne({ _id: req.params.id},{
-        title
+        title,author,location
     });
     res.json({
         status:"success"
