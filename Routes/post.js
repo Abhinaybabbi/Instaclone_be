@@ -4,6 +4,19 @@ const express = require("express");
 const Post = require("../models/post");
 
 const router = express.Router();
+const path= require("path");
+const fs = require("fs");
+const multer =require("multer");
+
+const storage = multer.diskStorage({
+    destination: (req,file,cb) => {
+        cb(null,"uploads")
+    },
+    filename: (req,file,cb) => {
+        cb(null,file.fieldname + '-' + Date.now())
+    }
+});
+const upload = multer({storage:storage});
 
 router.get("/",async function(req,res){
     try{
@@ -21,11 +34,12 @@ router.get("/",async function(req,res){
         })
     }
 })
-router.post("/",async (req,res)=> {
-    const {title, author, location} = req.body;
+router.post("/",upload.single("image"),async (req,res)=> {
+
+    const {title, author, location } = req.body;
     const post = await Post.create({
         title, author, location, user : req.user
-    });
+    })
     res.json({
         status:"sucess",
         data:{
